@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TempController {
 
-    //test
+    //test2
     @GetMapping("/temp")
     public ResponseEntity<String> temp() {
         return ResponseEntity.ok("temp");

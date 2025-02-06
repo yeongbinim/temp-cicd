@@ -30,6 +30,7 @@ jobs:
         with:
           name: spring-boot-app
           path: build/libs/spring-boot-app.jar
+          
   deploy:
     needs: build
     runs-on: ubuntu-latest

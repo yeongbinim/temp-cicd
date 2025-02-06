@@ -50,15 +50,15 @@ jobs:
           echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-      - name: Copy JAR to EC2
+      - name: Copy JAR and .env to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "build/libs/*.jar"
+          source: "build/libs/*.jar,.env"
           target: "/home/ubuntu/app/"
-
+          overwrite: true
       - name: Run Deployment Script on EC2
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -66,7 +66,5 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            mv /home/ubuntu/app/.env /home/ubuntu/app/.env.new
-            cp /home/ubuntu/app/.env.new /home/ubuntu/app/.env
             chmod +x /home/ubuntu/app/deploy.sh
             /home/ubuntu/app/deploy.sh

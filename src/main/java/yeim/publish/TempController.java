@@ -10,6 +10,6 @@ public class TempController {
     //test2
     @GetMapping("/temp")
     public ResponseEntity<String> temp() {
-        return ResponseEntity.ok("temp");
+        return ResponseEntity.ok("temp2");
     }
 }

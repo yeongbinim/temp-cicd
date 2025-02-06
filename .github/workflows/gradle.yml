@@ -23,7 +23,8 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build -x test --no-daemon
-        
+      - name: Check if JAR file exists
+        run: ls -lh build/libs/
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:

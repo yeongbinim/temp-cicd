@@ -23,13 +23,13 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build -x test --no-daemon
-      - name: Check if JAR file exists
-        run: ls -lh build/libs/
+      - name: Rename JAR file to standard name
+        run: mv build/libs/*.jar build/libs/spring-boot-app.jar
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: spring-boot-app
-          path: build/libs/*.jar
+          path: build/libs/spring-boot-app.jar
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -40,8 +40,6 @@ jobs:
         with:
           name: spring-boot-app
           path: build/libs
-      - name: Check Downloaded JAR File
-        run: ls -lh build/libs/
       - name: Create .env File
         run: |
           echo "APP_NAME=spring-boot-app.jar" > .env
@@ -56,7 +54,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "build/libs/*.jar,.env"
+          source: "build/libs/spring-boot-app.jar,.env"
           target: "/home/ubuntu/app/"
           overwrite: true
       - name: Run Deployment Script on EC2

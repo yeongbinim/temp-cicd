@@ -40,6 +40,8 @@ jobs:
         with:
           name: spring-boot-app
           path: build/libs
+      - name: Check Downloaded JAR File
+        run: ls -lh build/libs/
       - name: Create .env File
         run: |
           echo "APP_NAME=spring-boot-app.jar" > .env
